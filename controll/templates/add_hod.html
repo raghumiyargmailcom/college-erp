@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add HOD</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #1a237e;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .submit-btn {
+            margin-top: 15px;
+            background-color: #3949ab;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .submit-btn:hover {
+            background: #303f9f;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: white;
+            background: #f44336;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Add HOD</h2>
+
+    <!-- Show Django messages as alert popups -->
+    {% if messages %}
+        <script>
+            {% for message in messages %}
+                alert("{{ message }}");
+            {% endfor %}
+        </script>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <label for="hod_id">HOD ID:</label>
+        <input type="text" name="hod_id" id="hod_id" required pattern="[A-Za-z0-9]{1,6}" title="Max 6 letters or numbers">
+
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required pattern="[A-Za-z]{1,20}" title="Only letters (max 20 characters)">
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required pattern=".+@gmail\.com" title="Must end with @gmail.com">
+
+        <label for="department">Department:</label>
+        <input type="text" name="department" id="department" required>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required
+               title="Minimum 6 characters, include uppercase, lowercase, number, special character">
+
+        <button type="submit" class="submit-btn">Add HOD</button>
+    </form>
+    <a href="{% url 'admin_home' %}" class="back-btn">← Back to Dashboard</a>
+</div>
+
+</body>
+</html>

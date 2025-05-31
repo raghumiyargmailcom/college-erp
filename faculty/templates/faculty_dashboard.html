@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Faculty Dashboard - College ERP</title>
+
+  <!-- Font Awesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      background-color: #ecf0f1;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #2c3e50;
+      color: white;
+      height: 100vh;
+      padding: 20px;
+      position: fixed;
+      overflow-y: auto;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+      animation: fadeInDown 1s ease-in-out;
+    }
+
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border-radius: 5px;
+      background: #34495e;
+      transition: background 0.3s, transform 0.3s;
+      font-size: 16px;
+      animation: fadeInLeft 0.8s ease;
+    }
+
+    .sidebar a i {
+      margin-right: 10px;
+    }
+
+    .sidebar a:hover {
+      background: #1abc9c;
+      transform: scale(1.05);
+    }
+
+    .container {
+      margin-left: 270px;
+      padding: 30px 20px;
+      width: 100%;
+    }
+
+    .header {
+      background: #3498db;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      font-size: 22px;
+      font-weight: bold;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      animation: fadeInDown 1s ease-in-out;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .grid-item {
+      background: white;
+      padding: 25px 20px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, background 0.3s;
+      cursor: pointer;
+      animation: zoomIn 0.7s ease-in-out;
+    }
+
+    .grid-item:hover {
+      background: #1abc9c;
+      color: white;
+      transform: translateY(-5px);
+    }
+
+    .grid-item i {
+      font-size: 28px;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+
+      .container {
+        margin-left: 0;
+      }
+
+      .grid-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>Faculty Dashboard</h2>
+    <!-- Sidebar links -->
+    <a href="{% url 'faculty:manage_students' %}"><i class="fas fa-users"></i> Manage Students</a>
+    <a href="{% url 'faculty:take_attendance' %}"><i class="fas fa-clipboard-check"></i> Take Attendance</a>
+    <a href="{% url 'faculty:faculty_leave_status' %}"><i class="fas fa-envelope-open-text"></i> My Leave Status</a>
+    <a href="{% url 'faculty:exam_schedule' %}"><i class="fas fa-calendar-alt"></i> Exam Schedule</a>
+    <!-- Apply Leave tab with correct URL -->
+    <a href="{% url 'faculty:faculty_leave' %}" style="background: #34495e;"><i class="fas fa-calendar-day"></i> Apply Leave</a>
+    <a href="{% url 'faculty:attendance_report' %}"><i class="fas fa-chart-line"></i> Attendance Report</a>
+
+    <!-- Logout button (without URL) -->
+    <a href="{% url 'student_login' %}" style="background: red; color: white; display: inline-block; padding: 10px; border-radius: 5px; text-align: center; text-decoration: none;">
+      <i class="fas fa-sign-out-alt"></i> Logout
+  </a>
+  </div>
+
+  <div class="container">
+    <div class="header">Welcome to Faculty Dashboard</div>
+    <div class="grid-container">
+      <!-- Grid item linking to manage students -->
+      <div class="grid-item">
+        <a href="{% url 'faculty:manage_students' %}">
+          <i class="fas fa-users"></i>
+          Manage Students
+        </a>
+      </div>
+      <div class="grid-item">
+        <a href="{% url 'faculty:take_attendance' %}">
+          <i class="fas fa-clipboard-check"></i>
+          Take Attendance
+        </a>
+      </div>
+      <div class="grid-item">
+        <a href="{% url 'faculty:faculty_leave_status' %}">
+          <i class="fas fa-envelope-open-text"></i>
+          My Leave Status
+        </a>
+      </div>
+      <div class="grid-item">
+        <a href="{% url 'faculty:exam_schedule' %}">
+          <i class="fas fa-calendar-alt"></i>
+          Exam Schedule
+        </a>
+      </div>
+      <!-- Grid item linking to apply leave -->
+      <div class="grid-item">
+        <a href="{% url 'faculty:faculty_leave' %}">
+          <i class="fas fa-calendar-day"></i>
+          Apply Leave
+        </a>
+      </div>
+      <div class="grid-item">
+        <a href="{% url 'faculty:attendance_report' %}">
+          <i class="fas fa-chart-line"></i>
+          Attendance Report
+        </a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

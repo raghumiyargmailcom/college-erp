@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College ERP Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .background {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            background: url("{% static 'images/img1.jpg' %}") no-repeat center center/cover;
+            animation: changeBackground 15s infinite;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            color: white;
+            background-color: #007BFF;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            background-color: #333;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            background-color: #4CAF50;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        main ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        main ul li {
+            margin: 10px 0;
+        }
+
+        main ul li a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        main ul li a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes changeBackground {
+            0% { background: url("{% static 'images/img1.jpg' %}") no-repeat center center/cover; }
+            33% { background: url("{% static 'images/img2.jpg' %}") no-repeat center center/cover; }
+            66% { background: url("{% static 'images/img3.jpg' %}") no-repeat center center/cover; }
+            100% { background: url("{% static 'images/img4.jpg' %}") no-repeat center center/cover; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'login' %}">Admin Module</a></li>
+            <li><a href="{% url 'student_login' %}">User</a></li>
+            <!-- <li><a href="{% url 'login' %}">Student Module</a></li>
+            <li><a href="{% url 'login' %}">Faculty Module</a></li>
+            <li><a href="{% url 'login' %}">HOD Module</a></li> -->
+        </ul>
+    </nav>
+
+    <div class="background">
+        <div class="overlay">
+            <h1>Welcome to College ERP Management System</h1>
+            <p>Manage your college activities with ease</p>
+        </div>
+    </div>
+</body>
+</html>

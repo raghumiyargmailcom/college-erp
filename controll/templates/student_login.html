@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #212121;
+            color: #fff;
+            font-family: monospace, serif;
+            letter-spacing: 0.05em;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 23px;
+            text-align: center;
+        }
+
+        .form {
+            width: 300px;
+            padding: 64px 15px 24px;
+            margin: 0 auto;
+        }
+
+        .control {
+            margin-bottom: 24px;
+        }
+
+        .control input {
+            width: 100%;
+            padding: 14px 16px;
+            border: none;
+            background: transparent;
+            color: #fff;
+            font-size: 16px;
+            font-family: monospace, serif;
+            letter-spacing: 0.05em;
+        }
+
+        .control input:focus {
+            outline: none;
+            border: none;
+        }
+
+        .btn {
+            width: 100%;
+            display: block;
+            padding: 14px 16px;
+            background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(52,9,121,1) 37%, rgba(0,212,255,1) 94%);
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            font-family: monospace;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.8);
+            color: black;
+        }
+
+        .message {
+            text-align: center;
+            color: red;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .credits {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            padding: 15px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .credits a {
+            opacity: 0.6;
+            color: #fff;
+            font-size: 11px;
+            text-decoration: none;
+        }
+
+        .credits a:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <form class="form" action="{% url 'student_login' %}" method="POST" autocomplete="off">
+        {% csrf_token %}
+
+        <div class="control">
+            <h1> Sign In</h1>
+        </div>
+
+        {% if messages %}
+            <div class="message">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="control">
+            <label for="email">Email:</label>
+            <input type="email" name="email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="control">
+            <label for="password">Password:</label>
+            <input type="password" name="password" placeholder="Enter your password" required>
+        </div>
+
+        <button class="btn" type="submit">Log In</button>
+    </form>
+
+    <div class="credits">
+        <a href="https://codepen.io/marko-zub/" target="_blank">My other codepens</a>
+    </div>
+
+</body>
+</html>

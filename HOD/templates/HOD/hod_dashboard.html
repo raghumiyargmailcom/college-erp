@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOD Dashboard - College ERP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            background-color: #f4f4f4;
+        }
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            height: 100vh;
+            padding: 20px;
+            position: fixed;
+        }
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background: #34495e;
+            text-align: center;
+        }
+        .sidebar a:hover {
+            background: #1abc9c;
+        }
+        .container {
+            margin-left: 270px;
+            padding: 20px;
+            width: 100%;
+        }
+        .header {
+            background: #3498db;
+            padding: 15px;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .grid-item {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .grid-item:hover {
+            background: #1abc9c;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>HOD Dashboard</h2>
+        <a href="#">Dashboard</a>
+        <a href="{% url 'HOD:manage_faculty' %}">Manage Faculty</a> 
+        <a href="{% url 'HOD:manage_students' %}">Manage Students</a>
+        <a href="{% url 'HOD:manage_student_leave_requests' %}">Approve Leaves</a>
+
+        <!-- <a href="#">View Reports</a> -->
+        <a href="{% url 'HOD:add_marks' %}">Add Internal Marks</a>
+        <a href="{% url 'HOD:manage_student_marks' %}">Manage Student Marks</a> <!-- ✅ New Tab -->
+        <!-- New Sidebar Link for Faculty Leave Requests -->
+        <a href="{% url 'HOD:manage_faculty_leave_requests' %}">Manage Faculty Leave Requests</a>
+        
+    
+    <a href="{% url 'student_login' %}" style="background: red; color: white; display: inline-block; padding: 10px; border-radius: 5px; text-align: center; text-decoration: none;">Logout</a>
+</form>
+    </div>
+
+    <div class="container">
+        <div class="header">Welcome to HOD Dashboard</div>
+        <div class="grid-container">
+            <div class="grid-item" onclick="location.href='{% url 'HOD:manage_faculty' %}';">
+                <p>Manage Faculty</p>
+            </div>
+            <div class="grid-item" onclick="location.href='{% url 'HOD:manage_students' %}';">
+                <p>Manage Students</p>
+            </div>
+            <div class="grid-item" onclick="location.href='{% url 'HOD:manage_student_leave_requests' %}';">
+                <p>Approve Leaves</p>
+            </div>
+            <div class="grid-item" onclick="location.href='{% url 'HOD:add_marks' %}';">
+                <p>Add Internal Marks</p>
+            </div>
+            <div class="grid-item" onclick="location.href='{% url 'HOD:manage_student_marks' %}';">
+                <p>Manage Student Marks</p> <!-- ✅ New Grid Item -->
+            </div>
+            <!-- New Grid Item for Faculty Leave Requests -->
+            <div class="grid-item" onclick="location.href='{% url 'HOD:manage_faculty_leave_requests' %}';">
+                <p>Manage Faculty Leave Requests</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

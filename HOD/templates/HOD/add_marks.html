@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Marks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background: #218838;
+        }
+        .message {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+        .back-btn {
+            margin-bottom: 10px;
+            background-color: #6c757d;
+        }
+        .back-btn:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <button class="back-btn btn btn-secondary" onclick="history.back()">← Back</button>
+    
+    <h2>Add Marks</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                {{ message }}
+            </p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" id="marksForm">
+        {% csrf_token %}
+
+        <label for="roll_number">Student Roll Number:</label>
+        <input type="text" name="roll_number" id="roll_number" required>
+
+        <label for="semester">Semester:</label>
+        <select name="semester" id="semester" required>
+            <option value="">Select Semester</option>
+            <option value="1">Semester 1</option>
+            <option value="2">Semester 2</option>
+            <option value="3">Semester 3</option>
+            <option value="4">Semester 4</option>
+            <option value="5">Semester 5</option>
+            <option value="6">Semester 6</option>
+        </select>
+
+        <!-- Hidden field for max_marks (always 50) -->
+        <input type="hidden" name="max_marks" id="max_marks" value="50">
+
+        <div id="subjects-container">
+            <!-- Dynamically loaded subjects will be inserted here -->
+        </div>
+
+        <button type="submit" name="submit_marks">Submit Marks</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById("semester").addEventListener("change", loadSubjects);
+    document.getElementById("roll_number").addEventListener("blur", loadSubjects);
+
+    function loadSubjects() {
+        const semester = document.getElementById("semester").value;
+        const rollNumber = document.getElementById("roll_number").value;
+
+        if (!semester || !rollNumber) return;
+
+        fetch("{% url 'HOD:add_marks' %}", {
+            method: "POST",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
+            },
+            body: new URLSearchParams({
+                "semester": semester,
+                "roll_number": rollNumber
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById("subjects-container");
+            container.innerHTML = "";
+
+            if (data.length === 0) {
+                container.innerHTML = "<p>No subjects found.</p>";
+                return;
+            }
+
+            data.forEach(subject => {
+                const subjectField = `
+                    <label>${subject.name} Marks (Max 50):</label>
+                    <input type="number" name="marks_${subject.id}" min="0" max="50" required>
+                `;
+                container.innerHTML += subjectField;
+            });
+        });
+    }
+</script>
+
+</body>
+</html>

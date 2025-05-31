@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Marks</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+        .back-button {
+            display: inline-block;
+            background: #95a5a6;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .back-button:hover {
+            background: #7f8c8d;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            max-width: 700px;
+            margin: auto;
+            border-radius: 10px;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+        .download-btn {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .download-btn a {
+            background: #2ecc71;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .download-btn a:hover {
+            background: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ Back Button (outside the container) -->
+<a href="javascript:history.back()" class="back-button">← Back</a>
+
+<div class="container">
+    <h2>My Marks</h2>
+    <p><strong>Name:</strong> {{ student.name }}</p>
+    <p><strong>Roll No:</strong> {{ student.rollno }}</p>
+
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Marks Obtained</th>
+        </tr>
+        {% for subject, mark in marks_dict.items %}
+        <tr>
+            <td>{{ subject }}</td>
+            <td>{{ mark }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <th>Total</th>
+            <td>{{ total }}</td>
+        </tr>
+        <tr>
+            <th>Average (%)</th>
+            <td>{{ average }}</td>
+        </tr>
+    </table>
+
+    <div class="download-btn">
+        <a href="{% url 'student:download_my_marks' %}">Download PDF</a>
+    </div>
+</div>
+</body>
+</html>

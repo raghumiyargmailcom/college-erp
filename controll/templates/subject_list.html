@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject List</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Subject List</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Subject Name</th>
+                    <th>Code</th>
+                    <th>Department</th>
+                    <th>Semester</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subject in subjects %}
+                <tr>
+                    <td>{{ subject.name }}</td>
+                    <td>{{ subject.code }}</td>
+                    <td>{{ subject.department }}</td>
+                    <td>{{ subject.semester }}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm edit-btn" data-id="{{ subject.id }}" data-name="{{ subject.name }}" data-code="{{ subject.code }}" data-department="{{ subject.department }}" data-semester="{{ subject.semester }}">Update</button>
+                        <button class="btn btn-danger btn-sm delete-btn" data-id="{{ subject.id }}">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!-- <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSubjectModal">Add Subject</button> -->
+    </div>
+
+    <!-- Add & Update Subject Modal -->
+    <div class="modal fade" id="subjectModal" tabindex="-1" aria-labelledby="subjectModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="subjectModalLabel">Add / Update Subject</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="subjectForm">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="hidden" id="subject_id">
+                        <div class="mb-3">
+                            <label for="subject_name" class="form-label">Subject Name</label>
+                            <input type="text" class="form-control" id="subject_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject_code" class="form-label">Subject Code</label>
+                            <input type="text" class="form-control" id="subject_code" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="department" class="form-label">Department</label>
+                            <select class="form-control" id="department" required>
+                                <option value="MCA">MCA</option>
+                                <option value="MBA">MBA</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="semester" class="form-label">Semester</label>
+                            <select class="form-control" id="semester" required>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                                <option value="4">Semester 4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.edit-btn').click(function () {
+                let id = $(this).data('id');
+                $('#subject_id').val(id);
+                $('#subject_name').val($(this).data('name'));
+                $('#subject_code').val($(this).data('code'));
+                $('#department').val($(this).data('department'));
+                $('#semester').val($(this).data('semester'));
+                $('#subjectModalLabel').text("Update Subject");
+                $('#subjectModal').modal('show');
+            });
+
+            $('#subjectForm').submit(function (e) {
+                e.preventDefault();
+                let id = $('#subject_id').val();
+                let url = id ? `/update-subject/${id}/` : `/add-subject/`;
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                        'name': $('#subject_name').val(),
+                        'code': $('#subject_code').val(),
+                        'department': $('#department').val(),
+                        'semester': $('#semester').val(),
+                    },
+                    success: function () {
+                        location.reload();
+                    }
+                });
+            });
+
+            $('.delete-btn').click(function () {
+                if (confirm("Are you sure you want to delete this subject?")) {
+                    let id = $(this).data('id');
+                    $.ajax({
+                        type: 'POST',
+                        url: `/delete-subject/${id}/`,
+                        data: {
+                            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                        },
+                        success: function () {
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

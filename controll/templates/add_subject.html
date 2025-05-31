@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Subject</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card p-4 shadow">
+            <h2 class="text-center text-primary">Add Subject</h2>
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label class="form-label">Department</label>
+                    <select name="department" class="form-control" required>
+                        <option value="">Select Department</option>
+                        <option value="MCA">mca</option>
+                        <option value="MBA">mba</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Semester</label>
+                    <select name="semester" class="form-control" required>
+                        <option value="">Select Semester</option>
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                        <option value="3">Semester 3</option>
+                        <option value="4">Semester 4</option>
+                        <option value="5">Semester 5</option>
+                        <option value="6">Semester 6</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Subject Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="Enter Subject Name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Subject Code</label>
+                    <input type="text" name="code" class="form-control" placeholder="Enter Subject Code" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Add Subject</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

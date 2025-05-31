@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apply for Leave - Faculty</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-size: 16px;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+
+    .form-group input[type="date"] {
+      max-width: 200px;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      height: 150px;
+    }
+
+    .form-group button {
+      background-color: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    .form-group button:hover {
+      background-color: #2980b9;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .success-message {
+      color: green;
+      font-size: 14px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .back-link a {
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Apply for Leave</h2>
+
+    {% if messages %}
+      <div class="error-message">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="POST" action="{% url 'faculty:faculty_leave' %}">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="reason">Leave Reason</label>
+        <textarea name="reason" id="reason" required placeholder="Enter the reason for leave..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="start_date">Start Date</label>
+        <input type="date" name="start_date" id="start_date" required min="{{ today }}" />
+      </div>
+
+      <div class="form-group">
+        <label for="end_date">End Date</label>
+        <input type="date" name="end_date" id="end_date" required min="{{ today }}" />
+      </div>
+
+      <div class="form-group">
+        <button type="submit">Submit Leave Request</button>
+      </div>
+    </form>
+
+    <div class="back-link">
+      <a href="{% url 'faculty:faculty_dashboard' %}">&larr; Back to Dashboard</a>
+    </div>
+  </div>
+
+  <!-- JavaScript to enforce end_date > start_date -->
+  <script>
+    const startDateInput = document.getElementById("start_date");
+    const endDateInput = document.getElementById("end_date");
+
+    startDateInput.addEventListener("change", () => {
+      endDateInput.min = startDateInput.value;
+      if (endDateInput.value < startDateInput.value) {
+        endDateInput.value = ""; // reset if invalid
+      }
+    });
+  </script>
+
+</body>
+</html>

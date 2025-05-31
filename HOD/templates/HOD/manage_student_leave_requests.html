@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Student Leave Requests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background-color: white;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        button {
+            padding: 6px 12px;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .approve-btn {
+            background-color: #28a745;
+        }
+        .reject-btn {
+            background-color: #dc3545;
+        }
+        .status-text {
+            font-weight: bold;
+        }
+        .message {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 18px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<a href="javascript:history.back()" class="back-button">← Back</a>
+
+<h2>Student Leave Requests</h2>
+
+{% if leave_requests %}
+    <table>
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for leave in leave_requests %}
+                <tr>
+                    <td>{{ leave.student.name }}</td>
+                    <td>{{ leave.date_from }}</td>
+                    <td>{{ leave.date_to }}</td>
+                    <td>{{ leave.reason }}</td>
+                    <td class="status-text">{{ leave.status }}</td>
+                    <td>
+                        {% if leave.status == "Pending" %}
+                            <form method="post" action="{% url 'HOD:approve_student_leave' leave.id %}" style="display:inline">
+                                {% csrf_token %}
+                                <button class="approve-btn">Approve</button>
+                            </form>
+                            <form method="post" action="{% url 'HOD:reject_student_leave' leave.id %}" style="display:inline">
+                                {% csrf_token %}
+                                <button class="reject-btn">Reject</button>
+                            </form>
+                        {% else %}
+                            {{ leave.status }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p class="message">No student leave requests available.</p>
+{% endif %}
+
+</body>
+</html>

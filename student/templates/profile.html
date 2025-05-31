@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            background-color: #95a5a6;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .back-button:hover {
+            background-color: #7f8c8d;
+        }
+        .profile-img {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-img img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #3498db;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Update Profile</h2>
+
+        <!-- ✅ Back Button -->
+        <a href="javascript:history.back()" class="back-button">← Back</a>
+
+        <!-- ✅ Display Success Message -->
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: green;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <!-- ✅ Display Profile Image -->
+        <div class="profile-img">
+            {% if student.profile_photo %}
+                <img src="{{ student.profile_photo.url }}" alt="Profile Photo">
+            {% else %}
+                <img src="/static/default_profile.png" alt="Default Profile">
+            {% endif %}
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- ✅ Display Read-Only Fields -->
+            <div class="form-group">
+                <label>Roll No:</label>
+                <input type="text" value="{{ student.rollno }}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" value="{{ student.name }}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="text" value="{{ student.email }}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Class:</label>
+                <input type="text" value="{{ student.class_name }}" readonly>
+            </div>
+            <div class="form-group">
+                <label>Department:</label>
+                <input type="text" value="{{ student.department }}" readonly>
+            </div>
+
+            <!-- ✅ Editable Fields -->
+            <div class="form-group">
+                <label>Profile Photo:</label>
+                {{ form.profile_photo }}
+            </div>
+            <div class="form-group">
+                <label>Phone Number:</label>
+                {{ form.phone_number }}
+            </div>
+            <div class="form-group">
+                <label>Address:</label>
+                {{ form.address }}
+            </div>
+
+            <button type="submit">Update Profile</button>
+        </form>
+    </div>
+
+</body>
+</html>

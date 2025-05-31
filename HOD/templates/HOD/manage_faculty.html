@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Faculty</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #1a237e;
+        }
+        .back-button {
+            display: block;
+            width: fit-content;
+            margin: 0 auto 20px auto;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #3949ab;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="javascript:history.back()" class="back-button">← Back</a>
+
+    <h2>Faculty Members</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Faculty ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for faculty in faculty_members %}
+            <tr>
+                <td>{{ faculty.faculty_id }}</td>
+                <td>{{ faculty.name }}</td>
+                <td>{{ faculty.email }}</td>
+                <td>{{ faculty.department }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align:center; font-style:italic;">No faculty members found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

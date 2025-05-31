@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: {% if not download %}#f4f4f4{% else %}white{% endif %};
+            padding: 30px;
+            color: #2c3e50;
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: #7f8c8d;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #606c76;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: {% if not download %}0 0 10px rgba(0, 0, 0, 0.1){% else %}none{% endif %};
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2980b9;
+        }
+
+        .details {
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        .details p {
+            margin: 5px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #2980b9;
+            color: white;
+        }
+
+        .chart-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .download-btn {
+            display: {% if download %}none{% else %}block{% endif %};
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .download-btn a {
+            text-decoration: none;
+            padding: 12px 20px;
+            background-color: #27ae60;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .message {
+            text-align: center;
+            color: #c0392b;
+            font-size: 18px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ Back Button -->
+<a href="javascript:history.back()" class="back-button">← Back</a>
+
+<div class="container">
+    <h2>Attendance Report</h2>
+
+    <div class="details">
+        <p><strong>Student Name:</strong> {{ student.name }}</p>
+        <p><strong>Email:</strong> {{ student.email }}</p>
+        <p><strong>Total Classes:</strong> {{ total_classes }}</p>
+        <p><strong>Present:</strong> {{ total_present }}</p>
+        <p><strong>Absent:</strong> {{ total_absent }}</p>
+    </div>
+
+    {% if subject_data %}
+    <h3 style="color:#27ae60;">Subject-wise Attendance</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Total Classes</th>
+                <th>Present</th>
+                <th>Absent</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subject, data in subject_data.items %}
+            <tr>
+                <td>{{ subject }}</td>
+                <td>{{ data.present|add:data.absent }}</td>
+                <td>{{ data.present }}</td>
+                <td>{{ data.absent }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% if pie_chart %}
+    <div class="chart-container">
+        <img src="data:image/png;base64,{{ pie_chart }}" alt="Attendance Chart" width="400">
+    </div>
+    {% else %}
+    <p class="message">No attendance data available to display.</p>
+    {% endif %}
+
+    <div class="download-btn">
+        <a href="?download=true">Download as PDF</a>
+    </div>
+</div>
+
+</body>
+</html>
